@@ -1,0 +1,9 @@
+body{
+background-color:#000;
+}
+#gameArea{
+    background-color:#fff;
+    width:500px;
+    height:500px;
+    margin:auto;
+}
