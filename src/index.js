@@ -6,7 +6,7 @@ const player = document.getElementById('player')
 player.style.cssText = 'left:230px;'
 
 function addControls(player){
-    document.addEventListener('keyup', (event) => {
+    document.addEventListener('keydown', (event) => {
         let pos = window.getComputedStyle(player)
         let left = parseFloat(pos.left)
         let right = parseFloat(pos.right)
@@ -49,6 +49,10 @@ function fireWeapon(pos, gameArea){
                 let topPos = 510 - [i]
                 projectile.style.cssText += ` top:${topPos}px;`
                 projectilePos(projectile)
+                if (topPos < 3){
+                    projectile.remove()
+                    return
+                }
             }, 10*i)
         })(i)
     }
