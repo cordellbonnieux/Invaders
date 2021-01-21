@@ -37,18 +37,23 @@ function addControls(player){
         }
     }) 
 }
-function fireWeapon(pos, gameArea, left){
+function fireWeapon(pos, gameArea){
+    let newLeft = parseFloat(pos.left)
+    newLeft += 18 
     let projectile = document.createElement('div')
     projectile.setAttribute('class', 'projectile')
-    projectile.style.cssText = 'position:absolute; width:4px; height:4px; background-color:blue; border-radius:1px; bottom:100px;'
-    projectile.style.left += `${left - 10}px` // need to make the bullet move
-    //setTimeout(newPos(pos, projectile),500)
-    gameArea.appendChild(projectile)
-}
-function newPos(pos, projectile){
-
-    if (newLeft > 0){
-
+    projectile.style.cssText = `position:absolute; width:4px; height:4px; background-color:blue; border-radius:1px; left:${newLeft}px; top:510px;`
+    for (let i = 0; i < 510; i++){
+        (function (i){
+            setTimeout(function () {
+                let topPos = 510 - [i]
+                projectile.style.cssText += ` top:${topPos}px;`
+                projectilePos(projectile)
+            }, 10*i)
+        })(i)
     }
+}
+function projectilePos(projectile){
+    gameArea.appendChild(projectile) 
 }
 addControls(player)
