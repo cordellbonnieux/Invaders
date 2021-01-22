@@ -1,5 +1,6 @@
 import css from './style.css'
 const gameArea = document.getElementById('gameArea')
+const grid = document.getElementById('grid')
 const player = document.getElementById('player')
 
 // center the player on start
@@ -60,4 +61,28 @@ function fireWeapon(pos, gameArea){
 function projectilePos(projectile){
     gameArea.appendChild(projectile) 
 }
+function invaderFactory(rowNumber) {
+    return {
+        rowNumber: rowNumber,
+        cssProperties: `margin:10px; width:40px; height:40px; background-color:blue;`,
+        addClass(i){
+            return this.setAttribute('class', `invader-${i}`)
+        },
+        addDiv(){
+            return document.createElement('div')
+        }
+    }
+}
+function createInvaders(invaderFactory){
+    //let counter = 1
+    for (let i = 0; i < 10; i++){
+        let invader = invaderFactory(i)
+        let sprite = invader.addDiv()
+        sprite.style.cssText = invader.cssProperties
+        grid.appendChild(sprite)
+        //counter++
+    }
+}
+// start the game
 addControls(player)
+createInvaders(invaderFactory)
