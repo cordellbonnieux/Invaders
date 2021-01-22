@@ -65,24 +65,34 @@ function invaderFactory(rowNumber) {
     return {
         rowNumber: rowNumber,
         cssProperties: `margin:10px; width:40px; height:40px; background-color:blue;`,
-        addClass(i){
-            return this.setAttribute('class', `invader-${i}`)
-        },
         addDiv(){
             return document.createElement('div')
         }
     }
 }
 function createInvaders(invaderFactory){
-    //let counter = 1
-    for (let i = 0; i < 10; i++){
-        let invader = invaderFactory(i)
-        let sprite = invader.addDiv()
-        sprite.style.cssText = invader.cssProperties
-        grid.appendChild(sprite)
-        //counter++
+    for (let i = 0; i < 88; i++){ //adjust later
+        (function (i){
+            setTimeout(function () {
+                    let invader = invaderFactory(i)
+                    let sprite = invader.addDiv()
+                    sprite.style.cssText = invader.cssProperties
+                    sprite.setAttribute('class', `invader-${i}, invader`)
+                    grid.appendChild(sprite)
+            }, 800*i)
+        })(i)
+    }
+}
+function shiftGrid(grid){
+    for (let i = 0; i < 50; i++){
+        (function (i){
+            setTimeout(function () {
+                grid.style.paddingTop = `${1 * i}px`
+            }, 1200*i)
+        })(i)
     }
 }
 // start the game
 addControls(player)
 createInvaders(invaderFactory)
+shiftGrid(grid)
