@@ -34,6 +34,7 @@ function addControls(player){
                     console.log('about to fire weapon!')
                     fireWeapon(pos, gameArea);
                     //setTimeout(1000)
+                    // slow the gun down
             } else {
                 return
             }
@@ -86,7 +87,7 @@ function createInvaders(invaderFactory){
                         sprite.setAttribute('id', `invader-${[i]}`)
                         sprite.setAttribute('class', 'invader')
                         grid.appendChild(sprite)
-                }, 800*i)
+                }, 1500*i)
             })(i)
         }
     } catch(error) {
