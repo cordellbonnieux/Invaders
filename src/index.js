@@ -31,7 +31,9 @@ function addControls(player){
         }
         if (event.key == 'w'){
             if (right > 0){
-                fireWeapon(pos, gameArea)
+                    console.log('about to fire weapon!')
+                    fireWeapon(pos, gameArea);
+                    //setTimeout(1000)
             } else {
                 return
             }
@@ -39,24 +41,27 @@ function addControls(player){
     }) 
 }
 function fireWeapon(pos, gameArea){
-    let newLeft = parseFloat(pos.left)
-    newLeft += 18 
-    let projectile = document.createElement('div')
-    projectile.setAttribute('class', 'projectile')
-    projectile.style.cssText = `position:absolute; width:4px; height:4px; background-color:blue; border-radius:1px; left:${newLeft}px; top:510px;`
-    for (let i = 0; i < 510; i++){
-        (function (i){
-            setTimeout(function () {
-                let topPos = 510 - [i]
-                projectile.style.cssText += ` top:${topPos}px;`
-                projectilePos(projectile)
-                if (topPos < 3){
-                    projectile.remove()
-                    return
-                }
-            }, 10*i)
-        })(i)
-    }
+    //
+        let newLeft = parseFloat(pos.left)
+        newLeft += 18 
+        let projectile = document.createElement('div')
+        projectile.setAttribute('class', 'projectile')
+        projectile.style.cssText = `position:absolute; width:4px; height:4px; background-color:blue; border-radius:1px; left:${newLeft}px; top:510px;`
+        for (let i = 0; i < 510; i++){
+            (function (i){
+                setTimeout(function () {
+                    let topPos = 510 - [i]
+                    projectile.style.cssText += ` top:${topPos}px;`
+                    projectilePos(projectile)
+                    detectCollision(projectile)
+                    if (topPos < 3){
+                        projectile.remove()
+                        return
+                    }
+                }, 10*i)
+            })(i)
+        }
+    //
 }
 function projectilePos(projectile){
     gameArea.appendChild(projectile) 
@@ -71,16 +76,21 @@ function invaderFactory(rowNumber) {
     }
 }
 function createInvaders(invaderFactory){
-    for (let i = 0; i < 88; i++){ //adjust later
-        (function (i){
-            setTimeout(function () {
-                    let invader = invaderFactory(i)
-                    let sprite = invader.addDiv()
-                    sprite.style.cssText = invader.cssProperties
-                    sprite.setAttribute('class', `invader-${i}, invader`)
-                    grid.appendChild(sprite)
-            }, 800*i)
-        })(i)
+    try {
+        for (let i = 0; i < 80; i++){ //adjust later
+            (function (i){
+                setTimeout(function () {
+                        let invader = invaderFactory(i)
+                        let sprite = invader.addDiv()
+                        sprite.style.cssText = invader.cssProperties
+                        sprite.setAttribute('id', `invader-${[i]}`)
+                        sprite.setAttribute('class', 'invader')
+                        grid.appendChild(sprite)
+                }, 800*i)
+            })(i)
+        }
+    } catch(error) {
+        console.error(error)
     }
 }
 function shiftGrid(grid){
@@ -91,6 +101,28 @@ function shiftGrid(grid){
             }, 1200*i)
         })(i)
     }
+}
+function detectCollision(projectile){
+    let invaders = document.querySelectorAll('.invader')
+    let projectileTop = parseFloat(projectile.style.top)
+    let projectileLeft = parseFloat(projectile.style.left)
+    invaders.forEach((element) => {
+        let invadersPos = element.getBoundingClientRect()
+        let left = parseFloat(invadersPos.left)
+        let top = parseFloat(invadersPos.top)
+        top += 40
+        if (top == projectileTop && left == projectileLeft){
+            //(function (i){
+              //  setTimeout(function () {
+                //    projectile.style.backgroundColor = 'purple'
+                //}, 100*i)
+            //})(i)
+            invaders[i].remove()
+            projectile.remove()
+            return
+        }
+    })
+    return
 }
 // start the game
 addControls(player)
