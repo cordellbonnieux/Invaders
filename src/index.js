@@ -33,7 +33,7 @@ function addControls(player){
             if (right > 0){
                     console.log('about to fire weapon!')
                     fireWeapon(pos, gameArea);
-                    //setTimeout(1000)
+                    setTimeout(10000);
                     // slow the gun down
             } else {
                 return
@@ -70,7 +70,7 @@ function projectilePos(projectile){
 function invaderFactory(rowNumber) {
     return {
         rowNumber: rowNumber,
-        cssProperties: `margin:10px; width:40px; height:40px; background-color:blue;`,
+        cssProperties: `margin:10px; width:80px; height:80px; background-color:blue; color:white;`,
         addDiv(){
             return document.createElement('div')
         }
@@ -78,7 +78,7 @@ function invaderFactory(rowNumber) {
 }
 function createInvaders(invaderFactory){
     try {
-        for (let i = 0; i < 80; i++){ //adjust later
+        for (let i = 0; i < 20; i++){ //adjust later
             (function (i){
                 setTimeout(function () {
                         let invader = invaderFactory(i)
@@ -86,7 +86,8 @@ function createInvaders(invaderFactory){
                         sprite.style.cssText = invader.cssProperties
                         sprite.setAttribute('id', `invader-${[i]}`)
                         sprite.setAttribute('class', 'invader')
-                        grid.appendChild(sprite)
+                        grid.insertBefore(sprite,grid.firstChild)
+                        sprite.textContent = [i]
                 }, 1500*i)
             })(i)
         }
@@ -95,7 +96,7 @@ function createInvaders(invaderFactory){
     }
 }
 function shiftGrid(grid){
-    for (let i = 0; i < 50; i++){
+    for (let i = 0; i < 150; i++){
         (function (i){
             setTimeout(function () {
                 grid.style.paddingTop = `${1 * i}px`
